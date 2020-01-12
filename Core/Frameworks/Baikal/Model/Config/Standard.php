@@ -50,6 +50,10 @@ class Standard extends \Baikal\Model\Config {
             "type"    => "string",
             "comment" => "HTTP authentication type for WebDAV; default Digest"
         ],
+        "BAIKAL_DAV_IMAP_AUTH" => [
+            "type"    => "string",
+            "comment" => "IMAP connection string as defined in https://www.php.net/manual/en/function.imap-open.php"
+        ],
         "BAIKAL_ADMIN_PASSWORDHASH" => [
             "type"    => "string",
             "comment" => "Baïkal Web admin password hash; Set via Baïkal Web Admin",
@@ -63,6 +67,7 @@ class Standard extends \Baikal\Model\Config {
         "BAIKAL_CAL_ENABLED"        => true,
         "BAIKAL_INVITE_FROM"        => "",
         "BAIKAL_DAV_AUTH_TYPE"      => "Digest",
+        "BAIKAL_DAV_IMAP_AUTH"      => "",
         "BAIKAL_ADMIN_PASSWORDHASH" => ""
     ];
 
@@ -96,7 +101,13 @@ class Standard extends \Baikal\Model\Config {
         $oMorpho->add(new \Formal\Element\Listbox([
             "prop"    => "BAIKAL_DAV_AUTH_TYPE",
             "label"   => "WebDAV authentication type",
-            "options" => ["Digest", "Basic"]
+            "options" => ["Digest", "Basic", "IMAP"]
+        ]));
+
+        $oMorpho->add(new \Formal\Element\Text([
+            "prop"  => "BAIKAL_DAV_IMAP_AUTH",
+            "label" => "IMAP connection string",
+            "help"  => "Leave empty unless you selected IMAP as your WebDAV authentication type"
         ]));
 
         $oMorpho->add(new \Formal\Element\Password([
@@ -193,6 +204,9 @@ define("BAIKAL_INVITE_FROM", "noreply@$_SERVER[SERVER_NAME]");
 
 # WebDAV authentication type; default Digest
 define("BAIKAL_DAV_AUTH_TYPE", "Digest");
+
+# IMAP connection string as defined in https://www.php.net/manual/en/function.imap-open.php
+define("BAIKAL_DAV_IMAP_AUTH", "");
 
 # Baïkal Web admin password hash; Set via Baïkal Web Admin
 define("BAIKAL_ADMIN_PASSWORDHASH", "");
